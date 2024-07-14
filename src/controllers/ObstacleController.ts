@@ -23,7 +23,7 @@ export const create: RequestHandler = async (req, res, next) => {
 
             id: 0,
             status: "ACTIVE",
-            imageUrl: '',
+            imageUrl: obstacleData.imageUrl,
             noReports: 1
         }
 
@@ -44,10 +44,10 @@ export const create: RequestHandler = async (req, res, next) => {
                 lat: result.lat,
                 lng: result.lng,
                 obstacleId: result.id,
+                imageUrl: result.imageUrl,
                 userId: userId,
 
                 id: 0,
-                imageUrl: ''
             })
 
             return res.status(200).send(new Result(
@@ -63,10 +63,11 @@ export const create: RequestHandler = async (req, res, next) => {
             lng: exists.lng,
             obstacleId: exists.id,
             userId: userId,
-            imageUrl: ''
+            imageUrl: obstacleData.imageUrl
         })
 
         exists.noReports += 1;
+        exists.imageUrl = obstacleData.imageUrl;
         await exists.save();
 
         return res.status(200).send(new Result(
